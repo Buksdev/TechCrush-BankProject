@@ -2,7 +2,6 @@
 pragma solidity ^0.8.33;
 
 contract bankProject1 {
-
     //Custom error for low fee
     error FEEIsLow(uint256 _userFee);
 
@@ -13,7 +12,7 @@ contract bankProject1 {
     uint256 public constant FEE = 1e18;
 
     //Total fees collected from account creation
-    uint public totalFee;
+    uint256 public totalFee;
 
     //Total ETH held across all accounts
     uint256 public totalAmountInBank;
@@ -52,12 +51,8 @@ contract bankProject1 {
 
         //User can't create account unless he is a bank owner
         require(msg.sender == bankOwner, "Go and meet the bank owner to create an account for you");
-        differentAccounts[msg.sender] = accounts({
-            name: _name,
-            accountBalance: 0,
-            accountAddress: msg.sender,
-            accountStatus: true
-        });
+        differentAccounts[msg.sender] =
+            accounts({name: _name, accountBalance: 0, accountAddress: msg.sender, accountStatus: true});
     }
 
     //2. user deposit money into different bank accounts
@@ -79,7 +74,7 @@ contract bankProject1 {
         differentAccounts[msg.sender].accountBalance = differentAccounts[msg.sender].accountBalance - amount;
         totalAmountInBank -= amount;
         //INTERACTION
-        (bool isWithdrawn, ) = payable(msg.sender).call{value: amount}("");
+        (bool isWithdrawn,) = payable(msg.sender).call{value: amount}("");
         require(isWithdrawn, "it is cancelled joor");
     }
 

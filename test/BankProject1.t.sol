@@ -6,23 +6,22 @@ import {bankProject1} from "../src/BankProject1.sol";
 import {forLoop} from "../src/ForLoop.sol";
 
 contract bankProject1Test is Test {
-
     bankProject1 bank;
-    forLoop      forLoopContract;
+    forLoop forLoopContract;
 
     //Test actors
     address owner = makeAddr("owner");
     address alice = makeAddr("alice");
-    address bob   = makeAddr("bob");
+    address bob = makeAddr("bob");
 
     //Give everyone ETH before each test
     function setUp() public {
-        bank             = new bankProject1(owner);
-        forLoopContract  = new forLoop();
+        bank = new bankProject1(owner);
+        forLoopContract = new forLoop();
 
         vm.deal(owner, 100 ether);
         vm.deal(alice, 100 ether);
-        vm.deal(bob,   100 ether);
+        vm.deal(bob, 100 ether);
     }
 
     // Deployment tests
@@ -44,7 +43,7 @@ contract bankProject1Test is Test {
     }
 
     // createAccount tests
-    
+
     function test_createAccount_ownerCanCreateAccount() public {
         vm.prank(owner);
         bank.createAccount{value: 1 ether}("Owner Account");
@@ -241,12 +240,15 @@ contract bankProject1Test is Test {
     }
 
     function test_forLoop_addsMultipleAccountsCorrectly() public {
-        string[]  memory names = new string[](3);
+        string[] memory names = new string[](3);
         address[] memory addrs = new address[](3);
 
-        names[0] = "Alice"; addrs[0] = alice;
-        names[1] = "Bob";   addrs[1] = bob;
-        names[2] = "Carol"; addrs[2] = makeAddr("carol");
+        names[0] = "Alice";
+        addrs[0] = alice;
+        names[1] = "Bob";
+        addrs[1] = bob;
+        names[2] = "Carol";
+        addrs[2] = makeAddr("carol");
 
         forLoopContract.addMultipleAccounts(names, addrs);
 
@@ -254,10 +256,12 @@ contract bankProject1Test is Test {
     }
 
     function test_forLoop_storesNameAndAddressCorrectly() public {
-        string[]  memory names = new string[](2);
+        string[] memory names = new string[](2);
         address[] memory addrs = new address[](2);
-        names[0] = "Alice"; addrs[0] = alice;
-        names[1] = "Bob";   addrs[1] = bob;
+        names[0] = "Alice";
+        addrs[0] = alice;
+        names[1] = "Bob";
+        addrs[1] = bob;
 
         forLoopContract.addMultipleAccounts(names, addrs);
 
@@ -271,9 +275,10 @@ contract bankProject1Test is Test {
     }
 
     function test_forLoop_newAccountStatusIsTrue() public {
-        string[]  memory names = new string[](1);
+        string[] memory names = new string[](1);
         address[] memory addrs = new address[](1);
-        names[0] = "Alice"; addrs[0] = alice;
+        names[0] = "Alice";
+        addrs[0] = alice;
 
         forLoopContract.addMultipleAccounts(names, addrs);
 
@@ -282,9 +287,10 @@ contract bankProject1Test is Test {
     }
 
     function test_forLoop_newAccountBalanceIsZero() public {
-        string[]  memory names = new string[](1);
+        string[] memory names = new string[](1);
         address[] memory addrs = new address[](1);
-        names[0] = "Alice"; addrs[0] = alice;
+        names[0] = "Alice";
+        addrs[0] = alice;
 
         forLoopContract.addMultipleAccounts(names, addrs);
 
@@ -293,24 +299,28 @@ contract bankProject1Test is Test {
     }
 
     function test_forLoop_accumulatesAcrossMultipleCalls() public {
-        string[]  memory names1 = new string[](1);
+        string[] memory names1 = new string[](1);
         address[] memory addrs1 = new address[](1);
-        names1[0] = "Alice"; addrs1[0] = alice;
+        names1[0] = "Alice";
+        addrs1[0] = alice;
         forLoopContract.addMultipleAccounts(names1, addrs1);
 
-        string[]  memory names2 = new string[](2);
+        string[] memory names2 = new string[](2);
         address[] memory addrs2 = new address[](2);
-        names2[0] = "Bob";   addrs2[0] = bob;
-        names2[1] = "Carol"; addrs2[1] = makeAddr("carol");
+        names2[0] = "Bob";
+        addrs2[0] = bob;
+        names2[1] = "Carol";
+        addrs2[1] = makeAddr("carol");
         forLoopContract.addMultipleAccounts(names2, addrs2);
 
         assertEq(forLoopContract.getTotalAccounts(), 3);
     }
 
     function test_forLoop_emitsAccountAddedEvent() public {
-        string[]  memory names = new string[](1);
+        string[] memory names = new string[](1);
         address[] memory addrs = new address[](1);
-        names[0] = "Alice"; addrs[0] = alice;
+        names[0] = "Alice";
+        addrs[0] = alice;
 
         vm.expectEmit(false, false, false, true);
         emit forLoop.AccountAdded(0, "Alice", alice);
@@ -319,9 +329,10 @@ contract bankProject1Test is Test {
     }
 
     function test_forLoop_revertsOnLengthMismatch() public {
-        string[]  memory names = new string[](2);
+        string[] memory names = new string[](2);
         address[] memory addrs = new address[](1);
-        names[0] = "Alice"; names[1] = "Bob";
+        names[0] = "Alice";
+        names[1] = "Bob";
         addrs[0] = alice;
 
         vm.expectRevert("Names and addresses length must match");
@@ -329,7 +340,7 @@ contract bankProject1Test is Test {
     }
 
     function test_forLoop_revertsOnEmptyInput() public {
-        string[]  memory names = new string[](0);
+        string[] memory names = new string[](0);
         address[] memory addrs = new address[](0);
 
         vm.expectRevert("Must provide at least one account");
@@ -337,10 +348,12 @@ contract bankProject1Test is Test {
     }
 
     function test_forLoop_getAllAccountsReturnsAll() public {
-        string[]  memory names = new string[](2);
+        string[] memory names = new string[](2);
         address[] memory addrs = new address[](2);
-        names[0] = "Alice"; addrs[0] = alice;
-        names[1] = "Bob";   addrs[1] = bob;
+        names[0] = "Alice";
+        addrs[0] = alice;
+        names[1] = "Bob";
+        addrs[1] = bob;
         forLoopContract.addMultipleAccounts(names, addrs);
 
         bankProject1.accounts[] memory all = forLoopContract.getAllAccounts();

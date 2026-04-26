@@ -5,7 +5,6 @@ import {bankProject1} from "./BankProject1.sol";
 
 //Task 2: ForLoop - manage multiple accounts using arrays and iterative logic
 contract forLoop {
-
     //Reuse the accounts struct from bankProject1
     //Dynamic array to store multiple accounts
     bankProject1.accounts[] public accountsList;
@@ -15,10 +14,7 @@ contract forLoop {
 
     //Function that accepts multiple account details and uses a for loop
     //to programmatically add new accounts to the array
-    function addMultipleAccounts(
-        string[] memory _names,
-        address[] memory _addresses
-    ) public {
+    function addMultipleAccounts(string[] memory _names, address[] memory _addresses) public {
         //Check both arrays are the same length
         require(_names.length == _addresses.length, "Names and addresses length must match");
         require(_names.length > 0, "Must provide at least one account");
@@ -27,10 +23,7 @@ contract forLoop {
         for (uint256 i = 0; i < _names.length; i++) {
             //Create a new account struct in memory
             bankProject1.accounts memory newAccount = bankProject1.accounts({
-                name: _names[i],
-                accountBalance: 0,
-                accountAddress: _addresses[i],
-                accountStatus: true
+                name: _names[i], accountBalance: 0, accountAddress: _addresses[i], accountStatus: true
             });
 
             //Push the new account into the dynamic array
