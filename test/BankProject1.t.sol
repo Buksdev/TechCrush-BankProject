@@ -25,9 +25,7 @@ contract bankProject1Test is Test {
         vm.deal(bob,   100 ether);
     }
 
-    // -----------------------------------------------------------------------
     // Deployment tests
-    // -----------------------------------------------------------------------
 
     function test_bankOwnerIsSetCorrectly() public view {
         assertEq(bank.bankOwner(), owner);
@@ -45,10 +43,8 @@ contract bankProject1Test is Test {
         assertEq(bank.totalAmountInBank(), 0);
     }
 
-    // -----------------------------------------------------------------------
     // createAccount tests
-    // -----------------------------------------------------------------------
-
+    
     function test_createAccount_ownerCanCreateAccount() public {
         vm.prank(owner);
         bank.createAccount{value: 1 ether}("Owner Account");
@@ -80,9 +76,7 @@ contract bankProject1Test is Test {
         bank.createAccount{value: 1 ether}("Alice");
     }
 
-    // -----------------------------------------------------------------------
     // userDeposit tests
-    // -----------------------------------------------------------------------
 
     //Helper: create an account for owner before deposit tests
     modifier withOwnerAccount() {
@@ -122,9 +116,7 @@ contract bankProject1Test is Test {
         bank.userDeposit{value: 0}();
     }
 
-    // -----------------------------------------------------------------------
     // userWithdraw tests
-    // -----------------------------------------------------------------------
 
     //Helper: create account and deposit 2 ETH
     modifier withOwnerFunded() {
@@ -165,9 +157,7 @@ contract bankProject1Test is Test {
         bank.userWithdraw(10 ether);
     }
 
-    // -----------------------------------------------------------------------
     // transferMoney tests
-    // -----------------------------------------------------------------------
 
     modifier withOwnerAndAlice() {
         //Create and fund owner
@@ -211,9 +201,7 @@ contract bankProject1Test is Test {
         bank.transferMoney(alice, 1 ether);
     }
 
-    // -----------------------------------------------------------------------
     // closeAccount tests
-    // -----------------------------------------------------------------------
 
     function test_closeAccount_refundsBalanceToCaller() public withOwnerFunded {
         uint256 balanceBefore = owner.balance;
@@ -246,9 +234,7 @@ contract bankProject1Test is Test {
         vm.stopPrank();
     }
 
-    // -----------------------------------------------------------------------
     // ForLoop tests
-    // -----------------------------------------------------------------------
 
     function test_forLoop_startsWithEmptyArray() public view {
         assertEq(forLoopContract.getTotalAccounts(), 0);
